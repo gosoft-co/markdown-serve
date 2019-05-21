@@ -56,20 +56,25 @@ app.get('/content/:contentType/:postId?', (req, res) => {
 });
 
 app.post('/content/:contentType/:postId', (req, res) => {
-    var file = './content/'+req.params.contentType+'/'+req.params.postId+'.md';
 
-    var attributes = req.body;
-    delete attributes.body;
+    try {
+        var file = './content/'+req.params.contentType+'/'+req.params.postId+'.md';
 
-    let md = mdify.stringify(attributes, req.body.body);
+        var body = req.body.body;
+        var attributes = req.body;
+        delete attributes.body;
+        let md = mdify.stringify(attributes, body);
 
-    var stream = fs.createWriteStream(file);
-    stream.once('open', function(fd) {
-        stream.write(md);
-        stream.end();
-    });
+        var stream = fs.createWriteStream(file);
+        stream.once('open', function(fd) {
+            stream.write(md);
+            stream.end();
+        });
 
-    res.end(JSON.stringify({method: "POST"}));
+        res.status(200).end(JSON.stringify(attributes));
+    } catch (err) {
+        res.status(422).end(err)
+    }
 });
 
 // Start the server on port 8081
