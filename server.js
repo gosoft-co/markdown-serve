@@ -1,10 +1,14 @@
 var express = require('express');
 var app = express();
 
+var bodyParser = require('body-parser');
 var fs = require('fs-extra');
 var glob = require('glob');
 const path = require('path');
+const mdify = require("mdify");
 var markdown = require('markdown-parse')
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 /**
  * Allows to recover all posts
@@ -21,7 +25,7 @@ app.get('/content/:contentType/:postId?', (req, res) => {
                 var post = fs.readFileSync(path.resolve(folder, file), 'utf8')
 
                 markdown(post, function (error, result) {
-                    result.attributes.body = result.body;
+                    result.attributes.body = result.html;
                     posts.push(result.attributes)
                 })
             })
@@ -41,7 +45,7 @@ app.get('/content/:contentType/:postId?', (req, res) => {
                 var fileContent = {}
 
                 markdown(post, function (error, result) {
-                    result.attributes.body = result.body;
+                    result.attributes.body = result.html;
                     fileContent = result.attributes;
                 })
 
@@ -51,7 +55,20 @@ app.get('/content/:contentType/:postId?', (req, res) => {
     }
 });
 
-app.post('/blog', (req, res) => {
+app.post('/content/:contentType/:postId', (req, res) => {
+    var file = './content/'+req.params.contentType+'/'+req.params.postId+'.md';
+
+    var attributes = req.body;
+    delete attributes.body;
+
+    let md = mdify.stringify(attributes, req.body.body);
+
+    var stream = fs.createWriteStream(file);
+    stream.once('open', function(fd) {
+        stream.write(md);
+        stream.end();
+    });
+
     res.end(JSON.stringify({method: "POST"}));
 });
 
