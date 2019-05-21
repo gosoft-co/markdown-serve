@@ -1,0 +1,19 @@
+{
+  "name": "api-markdown",
+  "version": "1.0.0",
+  "description": "REST API built in nodejs using markdown files to serve content",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Brian Vanegas",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.0",
+    "fs": "0.0.1-security",
+    "fs-extra": "^8.0.1",
+    "glob": "^7.1.4",
+    "markdown-parse": "^0.2.1"
+  }
+}
