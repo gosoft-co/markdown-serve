@@ -1,21 +1,40 @@
 {
-  "name": "api-markdown",
+  "name": "node-ts",
   "version": "1.0.0",
-  "description": "REST API built in nodejs using markdown files to serve content",
-  "main": "server.js",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "build": "npm run tsc",
+    "coverage": "npm run test-cov && npm run test-remap",
+    "postinstall": "npm run build",
+    "tslint": "tslint ./*.ts ./lib/*.ts",
+    "test": "mocha --reporter spec --check-leaks --bail test/",
+    "tsc": "tsc --project tsconfig.json",
+    "tsc:w": "tsc -w",
+    "start": "nodemon --watch '**/*.ts' --ignore 'node_modules/**/*' --exec ts-node index.ts"
   },
-  "author": "Brian Vanegas",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^4.16.1",
+    "nodemon": "^1.19.1",
+    "ts-node": "^8.2.0",
+    "typescript": "^3.4.5"
+  },
   "dependencies": {
-    "body-parser": "^1.19.0",
-    "express": "^4.17.0",
+    "@tsed/common": "^5.18.0",
+    "@tsed/core": "^5.18.0",
+    "@tsed/di": "^5.18.0",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.17.1",
     "fs": "0.0.1-security",
     "fs-extra": "^8.0.1",
     "glob": "^7.1.4",
     "markdown-parse": "^0.2.1",
-    "mdify": "^1.0.12"
+    "mdify": "^1.0.12",
+    "method-override": "^3.0.0",
+    "path": "^0.12.7"
   }
 }
