@@ -37,5 +37,9 @@
     "mdify": "^1.0.12",
     "method-override": "^3.0.0",
     "path": "^0.12.7"
+  },
+   "repository": {
+    "type": "git",
+    "url": "git://github.com/gosoft-co/markdown-serve.git"
   }
 }
