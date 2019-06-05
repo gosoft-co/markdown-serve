@@ -1,0 +1,3 @@
+[submodule "markdown-serve"]
+	path = markdown-serve
+	url = https://github.com/gosoft-co/markdown-serve.git
