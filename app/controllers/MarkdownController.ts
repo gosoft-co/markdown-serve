@@ -35,9 +35,14 @@ export default class Markdown {
         return allFiles
     }
 
-    writeFile(post) {
+    writeFile(post, lang) {
         try {
-            let file = this.contentDir+'/'+this.postName+'.md';
+            let extension = 'md';
+            if (lang) {
+                extension = lang+'.md';
+            }
+
+            let file = this.contentDir+'/'+this.postName+'.'+extension;
             let md = mdify.stringify(post.attributes, post.body);
 
             var stream = fs.createWriteStream(file);
