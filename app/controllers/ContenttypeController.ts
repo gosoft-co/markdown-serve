@@ -1,4 +1,4 @@
-import {Controller, Get, PathParams, Post, BodyParams} from "@tsed/common";
+import {Controller, Get, PathParams, Post, BodyParams, QueryParams} from "@tsed/common";
 import Markdown from './MarkdownController'
 
 @Controller("/contenttype")
@@ -10,8 +10,8 @@ export class ContenttypeController {
   }
 
   @Post("/:name")
-  store(@BodyParams() post: any, @PathParams("name") name: string) {
+  store(@BodyParams() post: any, @PathParams("name") name: string, @QueryParams("language") language: string) {
     let postWrite = new Markdown('archetypes', '', name);
-    return postWrite.writeFile(post);
+    return postWrite.writeFile(post, language);
   }
 }
