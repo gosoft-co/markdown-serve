@@ -37,6 +37,9 @@ export default class Markdown {
 
     writeFile(post, lang) {
         try {
+            if (!fs.existsSync(this.contentDir)){
+                fs.mkdirSync(this.contentDir);
+            }
             let extension = 'md';
             if (lang) {
                 extension = lang+'.md';
