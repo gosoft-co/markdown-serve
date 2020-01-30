@@ -1,6 +1,6 @@
 import {Controller, Get, PathParams, Post, BodyParams, QueryParams} from "@tsed/common";
-const { readdirSync } = require('fs')
 import Markdown from './MarkdownController'
+const { readdirSync, existsSync } = require('fs')
 
 @Controller("/contenttype")
 export class ContenttypeController {
@@ -10,10 +10,15 @@ export class ContenttypeController {
     if (language) {
       dir = dir + '/' + language
     }
-    
-    return readdirSync(dir, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory() && dirent.name != 'spanish' && dirent.name != 'english')
-    .map(dirent => dirent.name)
+
+    if (existsSync(dir)) {
+      return readdirSync(dir, { withFileTypes: true })
+      .filter(dirent => dirent.isDirectory() && dirent.name != 'spanish' && dirent.name != 'english')
+      .map(dirent => dirent.name)
+    } else {
+      return []
+    }
+
   }
   
   @Get("/:contentType")
